@@ -53,7 +53,7 @@
             height: 85vh;
             background: linear-gradient(to right, #2563eb, #1e40af);
             color: white;
-            display: flex;
+            display: block;
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -62,6 +62,8 @@
 
         .hero-content {
             max-width: 600px;
+            margin-left:auto;
+            margin-right:auto;
         }
 
         .hero h1 {
@@ -130,6 +132,26 @@
             padding: 20px;
             margin-top: 40px;
         }
+        .logo{
+            height: 50px;
+            width: 50px;
+            border-radius:60%;
+        }
+        .logo-section{
+            display: flex;
+            align-items:center;
+            gap: 10px;
+        }
+        .img{
+            height: 300px;
+            width: 80%;
+            border-radius:20%;
+            gap: 10px;
+            display: flex;
+            align-items:center;
+            margin-left:auto;
+            margin-right:auto;
+        }
 
     </style>
 </head>
@@ -138,7 +160,11 @@
 
 <!-- NAVBAR -->
 <div class="navbar">
+
+<div class="logo-section">
+   <img src="{{ asset('images/shine.png') }}" class="logo" alt="logo">
     <h2>Booking System</h2>
+</div>
 
     <div class="nav-links">
         <a href="{{ route('login') }}" class="btn-login">Login</a>
@@ -146,8 +172,17 @@
     </div>
 </div>
 
+
+
 <!-- HERO -->
 <div class="hero">
+    <!-- IMAGES -->
+ <div class="img">
+        <img src="{{ asset('images/image1.jpeg') }}" class="img" alt="img1">
+        <img src="{{ asset('images/image2.jpeg') }}" class="img" alt="img1">
+    </div>
+
+
     <div class="hero-content">
         <h1>Welcome to Booking System</h1>
         <p>Book services easily and get approval from admin instantly</p>
