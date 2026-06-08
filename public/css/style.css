@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+}
+
+/* HEADER */
+.header {
+    background: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.title {
+    color: #2563eb;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* INTRO CARD */
+.intro {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 12px;
+}
+
+/* NAV */
+.navbar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-btn:hover {
+    background: #e0e7ff;
+}
+
+/* CONTENT AREA */
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+/* SECTION (SPA VERTICAL) */
+.section {
+    display: none;
+    animation: fade 0.3s ease-in-out;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* FORM */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.form-input:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-blue { background: #2563eb; color: white;  width: 100px;}
+.btn-red { background: #dc2626; color: white; width: 100px; }
+
+.pending { color: orange; }
+.approved { color: green; }
+.rejected { color: red; }
