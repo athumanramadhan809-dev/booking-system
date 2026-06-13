@@ -25,31 +25,102 @@
 
 <!-- NAV -->
 <div class="navbar">
+    <div class="nav-btn" onclick="show('statistics')">Statistics</div>
     <div class="nav-btn" onclick="show('add')">Add Service</div>
     <div class="nav-btn" onclick="show('services')"> Services</div>
     <div class="nav-btn" onclick="show('bookings')"> Bookings</div>
 </div>
 
+
 <!-- CONTENT -->
-<div class="container">
+ <div class="container">
+
+    <!-- STATISTICS -->
+   <div id="statistics" class="section active">
+
+    <div class="stats-container">
+
+        <h2 class="stats-title">
+            System Statistics
+        </h2>
+
+        <div class="stats-row">
+
+            <div class="stat-card">
+                <span>Total Users</span>
+                <h2>{{ $users }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Total Services</span>
+                <h2>{{ $totalServices }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Total Bookings</span>
+                <h2>{{ $totalBookings }}</h2>
+            </div>
+
+            <div class="stat-card pending-card">
+                <span>Pending</span>
+                <h2>{{ $pending }}</h2>
+            </div>
+
+            <div class="stat-card approved-card">
+                <span>Approved</span>
+                <h2>{{ $approved }}</h2>
+            </div>
+
+            <div class="stat-card rejected-card">
+                <span>Rejected</span>
+                <h2>{{ $rejected }}</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
     <!-- ADD SERVICE -->
-    <div id="add" class="section active">
+    <div id="add" class="section">
 
         <div class="card">
-            <h3>Add Service</h3>
 
-            <form method="POST" action="{{ route('admin.services.store') }}">
+            <h2>Add New Service</h2>
+
+            <form method="POST"
+                  action="{{ route('admin.services.store') }}">
+
                 @csrf
 
-                <input class="form-input" type="text" name="name" placeholder="Service Name">
+                <input
+                    class="form-input"
+                    type="text"
+                    name="name"
+                    placeholder="Service Name"
+                    required>
 
-                <textarea class="form-input" name="description" placeholder="Description"></textarea>
+                <textarea
+                    class="form-input"
+                    name="description"
+                    placeholder="Description"
+                    rows="4"
+                    required></textarea>
 
-                <input class="form-input" type="number" name="price" placeholder="Price">
+                <input
+                    class="form-input"
+                    type="number"
+                    name="price"
+                    placeholder="Price"
+                    required>
 
-                <button class="btn btn-blue">Add Service</button>
+                <button class="btn btn-blue">
+                    Add Service
+                </button>
+
             </form>
+
         </div>
 
     </div>
@@ -57,22 +128,36 @@
     <!-- SERVICES -->
     <div id="services" class="section">
 
-        <h3>Services</h3>
+        <h2>Available Services</h2>
 
         @foreach($services as $service)
+
         <div class="card">
 
-            <b>{{ $service->name }}</b>
-            <p>{{ $service->description }}</p>
-            <p><b>{{ number_format($service->price) }} TSH</b></p>
+            <h3>{{ $service->name }}</h3>
 
-            <form method="POST" action="{{ route('admin.services.delete', $service->id) }}">
+            <p>{{ $service->description }}</p>
+
+            <strong>
+                {{ number_format($service->price) }} TZS
+            </strong>
+
+            <br><br>
+
+            <form method="POST"
+                  action="{{ route('admin.services.delete',$service->id) }}">
+
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-red">Delete</button>
+
+                <button class="btn btn-red">
+                    Delete Service
+                </button>
+
             </form>
 
         </div>
+
         @endforeach
 
     </div>
@@ -80,29 +165,104 @@
     <!-- BOOKINGS -->
     <div id="bookings" class="section">
 
-        <h3>Bookings</h3>
-
-        @foreach($bookings as $booking)
         <div class="card">
 
-            <b>{{ $booking->user->name }} - {{ $booking->service->name }}</b>
+            <h2>Bookings Management</h2>
 
-            <p class="{{ $booking->status }}">
-                {{ $booking->status }}
-            </p>
+            <table class="table">
 
-            <form method="POST" action="{{ route('admin.bookings.approve', $booking->id) }}">
-                @csrf
-                <button class="btn btn-blue">Approve</button>
-            </form><br>
+                <thead>
 
-            <form method="POST" action="{{ route('admin.bookings.reject', $booking->id) }}">
-                @csrf
-                <button class="btn btn-red">Reject</button>
-            </form>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Approved By</th>
+                    <th>Action</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                @foreach($bookings as $booking)
+
+                <tr>
+
+                    <td>{{ $booking->id }}</td>
+                    <td>{{ $booking->user->name }}</td>
+                    <td>{{ $booking->service->name }}</td>
+                    <td>{{ $booking->booking_date }}</td>
+                    <td>{{ $booking->time_slot }}</td>
+
+                    <td>
+
+                        @if($booking->status == 'pending')
+                            <span class="pending">Pending</span>
+
+                        @elseif($booking->status == 'approved')
+                            <span class="approved">Approved</span>
+
+                        @else
+                            <span class="rejected">Rejected</span>
+                        @endif
+
+                    </td>
+
+                    <td>
+
+                        @if($booking->approver)
+                            {{ $booking->approver->name }}
+                        @else
+                            Not Processed
+                        @endif
+
+                    </td>
+
+                    <td>
+
+                        @if($booking->status == 'pending')
+
+                        <form method="POST"
+                              action="{{ route('admin.bookings.approve',$booking->id) }}"
+                              style="display:inline">
+
+                            @csrf
+
+                            <button class="btn btn-blue">
+                                Approve
+                            </button>
+
+                        </form>
+
+                        <form method="POST"
+                              action="{{ route('admin.bookings.reject',$booking->id) }}"
+                              style="display:inline">
+
+                            @csrf
+
+                            <button class="btn btn-red">
+                                Reject
+                            </button>
+
+                        </form>
+
+                        @endif
+
+                    </td>
+
+                </tr>
+
+                @endforeach
+
+                </tbody>
+
+            </table>
 
         </div>
-        @endforeach
 
     </div>
 

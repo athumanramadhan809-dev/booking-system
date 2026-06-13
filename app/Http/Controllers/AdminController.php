@@ -5,16 +5,43 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AdminController extends Controller
 {
     public function index()
-    {
-        return view('admin.dashboard', [
-            'services' => Service::latest()->get(),
-            'bookings' => Booking::with(['user','service'])->latest()->get()
-        ]);
-    }
+{
+    $users = User::count();
+
+    $services = Service::all();
+
+    $totalServices = Service::count();
+
+    $totalBookings = Booking::count();
+
+    $pending = Booking::where('status','pending')->count();
+
+    $approved = Booking::where('status','approved')->count();
+
+    $rejected = Booking::where('status','rejected')->count();
+
+    $bookings = Booking::with([
+        'user',
+        'service',
+        'approver'
+    ])->latest()->get();
+
+    return view('admin.dashboard', compact(
+        'users',
+        'services',
+        'totalServices',
+        'totalBookings',
+        'pending',
+        'approved',
+        'rejected',
+        'bookings'
+    ));
+}
 
     /* ============ SERVICES ============ */
 
@@ -50,20 +77,26 @@ class AdminController extends Controller
     /* ============ BOOKINGS ============ */
 
     public function approve($id)
-    {
-        $b = Booking::findOrFail($id);
-        $b->status = 'approved';
-        $b->save();
+{
+    $booking = Booking::findOrFail($id);
 
-        return back();
-    }
+    $booking->update([
+        'status' => 'approved',
+        'approved_by' => auth()->id()
+    ]);
+
+    return back()->with('success','Booking Approved');
+}
 
     public function reject($id)
-    {
-        $b = Booking::findOrFail($id);
-        $b->status = 'rejected';
-        $b->save();
+{
+    $booking = Booking::findOrFail($id);
 
-        return back();
-    }
+    $booking->update([
+        'status' => 'rejected',
+        'approved_by' => auth()->id()
+    ]);
+
+    return back()->with('success','Booking Rejected');
+}
 }
