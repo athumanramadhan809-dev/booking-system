@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
+@extends('layouts.app')
 
-<body>
+@section('title','Admin Dashboard')
 
-<!-- HEADER -->
-<div class="header">
-    <div class="title">Admin Dashboard</div>
+@section('content')
 
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="btn btn-red">Logout</button>
-    </form>
-</div>
+
 
 <!-- INTRO CARD -->
 <div class="intro">
@@ -279,5 +268,4 @@ function show(id) {
 }
 </script>
 
-</body>
-</html>
+@endsection

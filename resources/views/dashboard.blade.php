@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>User Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
+@extends('layouts.app')
 
-<body>
+@section('title','User Dashboard')
 
-<!-- HEADER -->
-<div class="header">
-    <div class="title">User Dashboard</div>
+@section('content')
 
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="btn btn-red">Logout</button>
-    </form>
-</div>
 
 <!-- INTRO -->
 <div class="intro">
@@ -46,9 +34,28 @@
 
             <form method="POST" action="{{ route('book.service') }}">
                 @csrf
-                <input type="hidden" name="service_id" value="{{ $service->id }}">
-                <input type="date" name="booking_date" required>
-                <input type="time" name="time_slot" required><br>
+
+                <input type="hidden"
+                       name="service_id"
+                       value="{{ $service->id }}"><br>
+
+                <label>
+                    Booking Date
+                </label>
+
+                <input type="date"
+                       name="booking_date"
+                       required
+                       class="form-input"><br>
+
+                <label>
+                    Time Slot
+                </label>
+
+                <input type="time"
+                       name="time_slot"
+                       required
+                       class="form-input"><br>
 
                 <button class="btn btn-blue">Book Now</button>
             </form>
@@ -105,5 +112,5 @@ function show(id) {
 }
 </script>
 
-</body>
-</html>
+
+@endsection
