@@ -1,60 +1,174 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="en">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | Booking System</title>
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <!-- LOGO -->
+
+        <div class="auth-logo">
+
+            <img src="{{ asset('images/image2.jpeg') }}" alt="Logo">
+
+            <h2>Booking System</h2>
+
+            <p>Create a New Account</p>
+
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <form method="POST" action="{{ route('register') }}">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            @csrf
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+            <!-- NAME -->
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <div class="form-group">
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                <label>Full Name</label>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                <input
+                    type="text"
+                    name="name"
+                    value="{{ old('name') }}"
+                    placeholder="Enter Full Name"
+                    required
+                    autofocus>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-        <!-- Role -->
-<div class="mt-4">
-    <x-input-label for="role" value="Select Role" />
+                @error('name')
 
-    <select id="role" name="role" class="block mt-1 w-full border-gray-300 rounded-md">
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-    </select>
+                <small class="error">
+                    {{ $message }}
+                </small>
+
+                @enderror
+
+            </div>
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="Enter Email Address"
+                    required>
+
+                @error('email')
+
+                <small class="error">
+                    {{ $message }}
+                </small>
+
+                @enderror
+
+            </div>
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required>
+
+                @error('password')
+
+                <small class="error">
+                    {{ $message }}
+                </small>
+
+                @enderror
+
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label>Confirm Password</label>
+
+                <input
+                    type="password"
+                    name="password_confirmation"
+                    placeholder="Confirm Password"
+                    required>
+
+            </div>
+
+            <!-- ROLE -->
+
+            <div class="form-group">
+
+                <label>Select Role</label>
+
+                <select name="role" required>
+
+                    <option value="user">User</option>
+
+                    <option value="admin">Admin</option>
+
+                </select>
+
+                @error('role')
+
+                <small class="error">
+                    {{ $message }}
+                </small>
+
+                @enderror
+
+            </div>
+
+            <!-- REGISTER BUTTON -->
+
+            <button type="submit" class="auth-btn">
+
+                Register
+
+            </button>
+
+            <!-- LOGIN LINK -->
+
+            <div class="auth-links">
+
+                <span>Already have an account?</span>
+
+                <a href="{{ route('login') }}">
+
+                    Login Here
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</body>
+
+</html>
